@@ -1,11 +1,11 @@
 # OpenCGMES
 Suite of tools for CGMES / CIM (IEC 61970) RDF - RDFS, SHACL and CIMXML
 
-## CimXmlParser
+## CimXml
 
 A Java library for parsing CIMXML files into RDF graphs using Apache Jena. 
 It supports both full models and difference models as defined in IEC 61970-552.
-see [CimXmlParser](./CimXmlParser/README.md)
+see [CimXmlParser](cimxml/README.md)
 
 ## Coming soon: QueryAndValidationUI
 

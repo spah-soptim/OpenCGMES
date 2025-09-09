@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.soptim.opencgmes</groupId>
+    <artifactId>cimxml</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>OpenCGMES - IEC61970-552 CIMXML</name>
+    <description>IEC 61970-552 CIMXML parser based on Apache Jena</description>
+    <url>https://github.com/SOPTIM/OpenCGMES</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>SOPTIM</name>
+        <url>https://www.soptim.de/</url>
+    </organization>
+
+    <scm>
+        <connection>scm:git:https://github.com/SOPTIM/OpenCGMES.git</connection>
+        <developerConnection>scm:git:https://github.com/SOPTIM/OpenCGMES.git</developerConnection>
+        <url>https://github.com/SOPTIM/OpenCGMES</url>
+    </scm>
+
+    <properties>
+        <java.version>21</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+
+        <!-- Main dependencies -->
+        <ver.jena>5.5.0</ver.jena>
+
+        <!-- XML -->
+        <ver.stax2-api>4.2.2</ver.stax2-api>
+        <ver.aalto-xml>1.3.3</ver.aalto-xml>
+        <ver.woodstox-core>7.1.1</ver.woodstox-core>
+
+        <!-- Utilities -->
+        <ver.commons-io>2.20.0</ver.commons-io>
+        <ver.commons-lang3>3.18.0</ver.commons-lang3>
+
+        <!-- Logging -->
+        <ver.slf4j>2.0.17</ver.slf4j>
+        <ver.log4j2>2.25.1</ver.log4j2>
+
+        <!-- Testing -->
+        <ver.junit4>4.13.2</ver.junit4>
+        <ver.mockito>5.19.0</ver.mockito>
+        <ver.awaitility>4.3.0</ver.awaitility>
+
+        <!-- Plugins -->
+        <ver.plugin.compiler>3.14.0</ver.plugin.compiler>
+        <ver.plugin.surefire>3.5.3</ver.plugin.surefire>
+        <ver.plugin.source>3.3.1</ver.plugin.source>
+        <ver.plugin.javadoc>3.11.3</ver.plugin.javadoc>
+    </properties>
+
+    <dependencies>
+        <!-- Apache Jena -->
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-arq</artifactId>
+            <version>${ver.jena}</version>
+        </dependency>
+
+        <!-- XML Processing -->
+        <dependency>
+            <groupId>org.codehaus.woodstox</groupId>
+            <artifactId>stax2-api</artifactId>
+            <version>${ver.stax2-api}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml</groupId>
+            <artifactId>aalto-xml</artifactId>
+            <version>${ver.aalto-xml}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.woodstox</groupId>
+            <artifactId>woodstox-core</artifactId>
+            <version>${ver.woodstox-core}</version>
+        </dependency>
+
+        <!-- Utilities -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${ver.commons-io}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${ver.commons-lang3}</version>
+        </dependency>
+
+        <!-- Logging (provided by user) -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${ver.slf4j}</version>
+        </dependency>
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${ver.junit4}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${ver.mockito}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>${ver.awaitility}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${ver.slf4j}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+            <version>${ver.log4j2}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${ver.log4j2}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${ver.plugin.compiler}</version>
+                <configuration>
+                    <release>${java.version}</release>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${ver.plugin.surefire}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${ver.plugin.source}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${ver.plugin.javadoc}</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <release>${java.version}</release>
+                    <doclint>-missing</doclint>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
