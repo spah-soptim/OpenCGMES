@@ -331,4 +331,14 @@ or custom extensions for this project, these services are available from **[SOPT
 Please feel free to contact us via [opencgmes@soptim.de](mailto:opencgmes@soptim.de).
 
 ## Acknowledgments
-This project is based on the Apache Jena org.apache.jena.riot.lang.rdfxml.rrx_stax_sr.ParserRRX_StAX_SR parser, originally developed by the Apache Jena team. We thank the Apache Software Foundation and all contributors to the original project
+This project is based on the Apache Jena RDF/XML parser (ParserRRX_StAX_SR), originally developed by the Apache Jena team. We thank the Apache Software Foundation and all contributors to the original project.
+
+### W3C RDF/XML Test Suite
+This module includes example files from the [W3C RDF/XML Syntax Specification](https://www.w3.org/TR/rdf-syntax-grammar/)
+(W3C Recommendation 10 February 2004) in the `testing/w3c-rdf-syntax-grammar/` directory.
+
+Copyright © 2004 [World Wide Web Consortium](https://www.w3.org/).
+
+These files are used under the [W3C Software License](https://www.w3.org/copyright/software-license-2023/)
+exclusively for testing the conformance of the CIMXML parser with standard RDF/XML syntax. The test files
+ensure that the IEC 61970-552 extensions are compatible with standard RDF/XML processing.

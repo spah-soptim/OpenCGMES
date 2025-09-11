@@ -72,7 +72,6 @@ import java.util.Set;
  *
  * @see CimProfile
  * @see PropertyInfo
- * @since Jena 5.6.0
  */
 public interface CimProfileRegistry {
 

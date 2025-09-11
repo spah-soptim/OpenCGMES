@@ -35,7 +35,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
 /**
- * IEC 61970-552 CIMXML parser for Apache Jena.
+ * IEC 61970-552 CIMXML parser for OpenCGMES.
  *
  * <p>This parser provides specialized handling for Common Information Model (CIM) XML files
  * as defined by the IEC 61970-552 standard. It extends standard RDF/XML parsing with
@@ -74,7 +74,6 @@ import java.nio.file.StandardOpenOption;
  * @see CimDatasetGraph
  * @see CimProfileRegistry
  * @see <a href="https://webstore.iec.ch/publication/25939">IEC 61970-552 Standard</a>
- * @since Jena 5.6.0
  */
 public class CimXmlParser {
 

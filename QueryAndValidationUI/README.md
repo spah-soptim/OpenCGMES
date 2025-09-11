@@ -26,3 +26,18 @@ SHACL validation - example for a scuccessful validation:
 
 SHACL validation - example for a failed validation:
 ![SHACL Validation](./images/screenshot_shacl_validaton_error.png)
+
+## Data Sources and Acknowledgments
+
+The data shown in the screenshots is derived from:
+
+**CGMES Conformity Assessment Scheme Test Configurations v3.0.3**  
+*ENTSO-E (European Network of Transmission System Operators for Electricity)*
+
+This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License][cc-by-nc-sa].
+
+- **Source:** https://www.entsoe.eu/data/cim/cim-conformity-and-interoperability/
+- **Usage:** Screenshots and configuration examples for demonstration purposes
+- **License Compliance:** Non-commercial use with attribution as required
+
+[cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
