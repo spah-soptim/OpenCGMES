@@ -7,8 +7,6 @@ on:
       - ".github/workflows/cimxml-ci.yml"
       - ".github/workflows/cimxml-release.yml"
   push:
-    branches:
-      - "main"
     paths:
       - "cimxml/**"
       - ".github/workflows/cimxml-ci.yml"

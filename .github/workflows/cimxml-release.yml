@@ -47,6 +47,7 @@ jobs:
   publish-maven-central:
     needs: validate-tag
     runs-on: ubuntu-latest
+    environment: Maven Central Deployment
     env:
       CENTRAL_PORTAL_USERNAME: ${{ secrets.CENTRAL_PORTAL_USERNAME }}
       CENTRAL_PORTAL_PASSWORD: ${{ secrets.CENTRAL_PORTAL_PASSWORD }}
