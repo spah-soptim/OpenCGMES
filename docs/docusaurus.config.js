@@ -24,8 +24,8 @@ const config = {
     'Tools for CGMES / CIM (IEC 61970) RDF — CIMXML parsing, SPARQL/SHACL validation, and editor integrations',
   favicon: 'img/favicon.svg',
 
-  url: 'https://opencgmes.soptim.de',
-  baseUrl: '/',
+  url: 'https://spah-soptim.github.io',
+  baseUrl: '/OpenCGMES/',
 
   organizationName: 'SOPTIM',
   projectName: 'OpenCGMES',
