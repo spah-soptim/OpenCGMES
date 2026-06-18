@@ -21,105 +21,112 @@ package de.soptim.opencgmes.cimcheck.cli.schema;
 import de.soptim.opencgmes.cimcheck.cli.config.CliConfig;
 import de.soptim.opencgmes.cimcheck.core.CgmesSchemaLoader;
 import de.soptim.opencgmes.cimcheck.core.schema.RdfsSchemaIndex;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * Builds a {@link RdfsSchemaIndex} from the CLI config or from explicit schema file paths.
- */
+/** Builds a {@link RdfsSchemaIndex} from the CLI config or from explicit schema file paths. */
 public final class SchemaLoader {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SchemaLoader.class);
+  private static final Logger LOG = LoggerFactory.getLogger(SchemaLoader.class);
 
-    private SchemaLoader() {}
+  private SchemaLoader() {}
 
-    /**
-     * Loads an index from the given config (either {@code schemasDirectory} or explicit
-     * {@code schemas} list). Paths in the config are resolved relative to {@code configBase}.
-     * Returns {@link Optional#empty()} when the config declares no schemas — there is no bundled
-     * default, so the caller validates syntax-only.
-     *
-     * @throws SchemaLoadException if schema files are configured but none can be found/parsed
-     */
-    public static Optional<RdfsSchemaIndex> load(CliConfig config, Path configBase)
-            throws SchemaLoadException {
-        if (config.schemas().isEmpty() && config.schemasDirectory() == null) {
-            return Optional.empty();
-        }
-        return Optional.of(buildIndex(resolveFiles(config, configBase)));
+  /**
+   * Loads an index from the given config (either {@code schemasDirectory} or explicit {@code
+   * schemas} list). Paths in the config are resolved relative to {@code configBase}. Returns {@link
+   * Optional#empty()} when the config declares no schemas — there is no bundled default, so the
+   * caller validates syntax-only.
+   *
+   * @throws SchemaLoadException if schema files are configured but none can be found/parsed
+   */
+  public static Optional<RdfsSchemaIndex> load(CliConfig config, Path configBase)
+      throws SchemaLoadException {
+    if (config.schemas().isEmpty() && config.schemasDirectory() == null) {
+      return Optional.empty();
     }
+    return Optional.of(buildIndex(resolveFiles(config, configBase)));
+  }
 
-    /**
-     * Loads an index from an explicit list of schema file paths.
-     *
-     * @throws SchemaLoadException if the list is empty or any file fails to parse
-     */
-    public static RdfsSchemaIndex load(List<Path> schemaFiles) throws SchemaLoadException {
-        if (schemaFiles.isEmpty()) {
-            throw new SchemaLoadException("No schema files provided.");
-        }
-        return buildIndex(schemaFiles);
+  /**
+   * Loads an index from an explicit list of schema file paths.
+   *
+   * @throws SchemaLoadException if the list is empty or any file fails to parse
+   */
+  public static RdfsSchemaIndex load(List<Path> schemaFiles) throws SchemaLoadException {
+    if (schemaFiles.isEmpty()) {
+      throw new SchemaLoadException("No schema files provided.");
     }
+    return buildIndex(schemaFiles);
+  }
 
-    // ---- private helpers -------------------------------------------------------------------
+  // ---- private helpers -------------------------------------------------------------------
 
-    private static List<Path> resolveFiles(CliConfig config, Path base) throws SchemaLoadException {
-        if (!config.schemas().isEmpty()) {
-            return config.schemas().stream()
-                    .map(s -> base.resolve(s).normalize())
-                    .collect(Collectors.toList());
-        }
-        if (config.schemasDirectory() != null) {
-            Path dir = base.resolve(config.schemasDirectory()).normalize();
-            if (!Files.isDirectory(dir)) {
-                throw new SchemaLoadException(
-                        "schemasDirectory does not exist or is not a directory: " + dir);
-            }
-            try (Stream<Path> walk = Files.walk(dir, 1, FileVisitOption.FOLLOW_LINKS)) {
-                var files = walk
-                        .filter(p -> isSchemaFile(p.getFileName().toString()))
-                        .sorted()
-                        .collect(Collectors.toList());
-                if (files.isEmpty()) {
-                    throw new SchemaLoadException(
-                            "No .rdf / .ttl / .owl files found in schemasDirectory: " + dir);
-                }
-                return files;
-            } catch (IOException e) {
-                throw new SchemaLoadException("Cannot list schemasDirectory " + dir + ": " + e.getMessage(), e);
-            }
-        }
+  private static List<Path> resolveFiles(CliConfig config, Path base) throws SchemaLoadException {
+    if (!config.schemas().isEmpty()) {
+      return config.schemas().stream()
+          .map(s -> base.resolve(s).normalize())
+          .collect(Collectors.toList());
+    }
+    if (config.schemasDirectory() != null) {
+      Path dir = base.resolve(config.schemasDirectory()).normalize();
+      if (!Files.isDirectory(dir)) {
         throw new SchemaLoadException(
-                "Config must specify either 'schemasDirectory' or 'schemas'.");
-    }
-
-    private static boolean isSchemaFile(String name) {
-        String lower = name.toLowerCase();
-        return lower.endsWith(".rdf") || lower.endsWith(".ttl") || lower.endsWith(".owl");
-    }
-
-    private static RdfsSchemaIndex buildIndex(List<Path> files) throws SchemaLoadException {
-        try {
-            var loaded = CgmesSchemaLoader.fromFiles(files).loadIndexWithSources();
-            loaded.skippedFiles().forEach(f -> LOG.warn("Skipped unparseable schema file: {}", f));
-            return loaded.index();
-        } catch (CgmesSchemaLoader.SchemaLoadException e) {
-            throw new SchemaLoadException(e.getMessage(), e.getCause());
+            "schemasDirectory does not exist or is not a directory: " + dir);
+      }
+      try (Stream<Path> walk = Files.walk(dir, 1, FileVisitOption.FOLLOW_LINKS)) {
+        var files = walk.filter(SchemaLoader::isSchemaFile).sorted().collect(Collectors.toList());
+        if (files.isEmpty()) {
+          throw new SchemaLoadException(
+              "No .rdf / .ttl / .owl files found in schemasDirectory: " + dir);
         }
+        return files;
+      } catch (IOException e) {
+        throw new SchemaLoadException(
+            "Cannot list schemasDirectory " + dir + ": " + e.getMessage(), e);
+      }
+    }
+    throw new SchemaLoadException("Config must specify either 'schemasDirectory' or 'schemas'.");
+  }
+
+  private static boolean isSchemaFile(Path path) {
+    Path name = path.getFileName();
+    return name != null && isSchemaFile(name.toString());
+  }
+
+  private static boolean isSchemaFile(String name) {
+    String lower = name.toLowerCase(Locale.ROOT);
+    return lower.endsWith(".rdf") || lower.endsWith(".ttl") || lower.endsWith(".owl");
+  }
+
+  private static RdfsSchemaIndex buildIndex(List<Path> files) throws SchemaLoadException {
+    try {
+      var loaded = CgmesSchemaLoader.fromFiles(files).loadIndexWithSources();
+      loaded.skippedFiles().forEach(f -> LOG.warn("Skipped unparseable schema file: {}", f));
+      return loaded.index();
+    } catch (CgmesSchemaLoader.SchemaLoadException e) {
+      throw new SchemaLoadException(e.getMessage(), e.getCause());
+    }
+  }
+
+  /** Thrown when schema loading fails. */
+  public static final class SchemaLoadException extends Exception {
+    /** Creates an exception with the given message. */
+    public SchemaLoadException(String message) {
+      super(message);
     }
 
-    /** Thrown when schema loading fails. */
-    public static final class SchemaLoadException extends Exception {
-        public SchemaLoadException(String message) { super(message); }
-        public SchemaLoadException(String message, Throwable cause) { super(message, cause); }
+    /** Creates an exception with the given message and underlying cause. */
+    public SchemaLoadException(String message, Throwable cause) {
+      super(message, cause);
     }
+  }
 }

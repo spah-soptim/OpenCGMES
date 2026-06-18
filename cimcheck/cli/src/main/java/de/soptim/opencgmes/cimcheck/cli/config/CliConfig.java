@@ -20,7 +20,6 @@ package de.soptim.opencgmes.cimcheck.cli.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.soptim.opencgmes.cimcheck.core.ValidationConfig;
-
 import java.util.List;
 import java.util.Map;
 
@@ -28,9 +27,10 @@ import java.util.Map;
  * Deserialized form of the {@code "cimcheck"} section of {@code opencgmes.json}.
  *
  * <p>All fields are optional. When neither {@code schemas} nor {@code schemasDirectory} is given,
- * no schema is loaded and inputs are checked syntax-only (there is no bundled default schema).</p>
+ * no schema is loaded and inputs are checked syntax-only (there is no bundled default schema).
  *
- * <p>Example {@code opencgmes.json}:</p>
+ * <p>Example {@code opencgmes.json}:
+ *
  * <pre>{@code
  * {
  *   "cimcheck": {
@@ -43,19 +43,24 @@ import java.util.Map;
  * }</pre>
  *
  * <p>Use either {@code schemasDirectory} (auto-discovers all {@code .rdf}/{@code .ttl}/{@code .owl}
- * files) or an explicit {@code schemas} list, not both.</p>
+ * files) or an explicit {@code schemas} list, not both.
  */
 public record CliConfig(
-        @JsonProperty("schemasDirectory") String schemasDirectory,
-        @JsonProperty("schemas")          List<String> schemas,
-        @JsonProperty("namedGraphs")      Map<String, List<String>> namedGraphs,
-        @JsonProperty("strictness")       String strictness,
-        @JsonProperty("prefixes")         Map<String, String> prefixes,
-        @JsonProperty("standardVocabulary") String standardVocabulary
-) implements ValidationConfig {
-    public CliConfig {
-        if (schemas     == null) schemas     = List.of();
-        if (namedGraphs == null) namedGraphs = Map.of();
-        // prefixes: null means "use built-in defaults", empty map means "no defaults"
+    @JsonProperty("schemasDirectory") String schemasDirectory,
+    @JsonProperty("schemas") List<String> schemas,
+    @JsonProperty("namedGraphs") Map<String, List<String>> namedGraphs,
+    @JsonProperty("strictness") String strictness,
+    @JsonProperty("prefixes") Map<String, String> prefixes,
+    @JsonProperty("standardVocabulary") String standardVocabulary)
+    implements ValidationConfig {
+  /** Canonical constructor; substitutes empty collections for {@code null} fields. */
+  public CliConfig {
+    if (schemas == null) {
+      schemas = List.of();
     }
+    if (namedGraphs == null) {
+      namedGraphs = Map.of();
+    }
+    // prefixes: null means "use built-in defaults", empty map means "no defaults"
+  }
 }

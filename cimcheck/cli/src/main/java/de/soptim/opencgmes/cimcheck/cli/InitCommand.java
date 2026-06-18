@@ -19,15 +19,14 @@
 package de.soptim.opencgmes.cimcheck.cli;
 
 import de.soptim.opencgmes.cimcheck.core.ConfigTemplate;
-import picocli.CommandLine.Command;
-import picocli.CommandLine.ExitCode;
-import picocli.CommandLine.Option;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.Callable;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.ExitCode;
+import picocli.CommandLine.Option;
 
 /**
  * The {@code cimcheck init} subcommand: scaffolds a commented {@code opencgmes.json} so users do
@@ -36,51 +35,50 @@ import java.util.concurrent.Callable;
  * documentation.
  *
  * <h2>Exit codes</h2>
+ *
  * <ul>
- *   <li>0 — file written</li>
- *   <li>2 — the file already exists (use {@code --force}) or could not be written</li>
+ *   <li>0 — file written
+ *   <li>2 — the file already exists (use {@code --force}) or could not be written
  * </ul>
  */
 @Command(
-        name        = "init",
-        description = {
-            "Create a commented opencgmes.json config scaffold in the current directory.",
-            "Set 'schemas' to point CIMcheck at the profiles to validate against."
-        },
-        mixinStandardHelpOptions = true,
-        sortOptions = false
-)
+    name = "init",
+    description = {
+      "Create a commented opencgmes.json config scaffold in the current directory.",
+      "Set 'schemas' to point CIMcheck at the profiles to validate against."
+    },
+    mixinStandardHelpOptions = true,
+    sortOptions = false)
 public class InitCommand implements Callable<Integer> {
 
-    @Option(
-            names       = {"-d", "--dir"},
-            paramLabel  = "<dir>",
-            description = "Directory to write opencgmes.json into (default: current directory)."
-    )
-    private Path dir = Path.of(".");
+  @Option(
+      names = {"-d", "--dir"},
+      paramLabel = "<dir>",
+      description = "Directory to write opencgmes.json into (default: current directory).")
+  private Path dir = Path.of(".");
 
-    @Option(
-            names       = {"-f", "--force"},
-            description = "Overwrite an existing opencgmes.json."
-    )
-    private boolean force;
+  @Option(
+      names = {"-f", "--force"},
+      description = "Overwrite an existing opencgmes.json.")
+  private boolean force;
 
-    @Override
-    public Integer call() {
-        Path target = dir.resolve(ConfigTemplate.FILE_NAME);
-        if (Files.exists(target) && !force) {
-            System.err.println("Error: " + target + " already exists. Use --force to overwrite.");
-            return ExitCode.USAGE;
-        }
-        try {
-            Files.writeString(target, ConfigTemplate.defaultJson(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            System.err.println("Error: cannot write " + target + ": " + e.getMessage());
-            return ExitCode.SOFTWARE;
-        }
-        System.out.println("Created " + target);
-        System.out.println("Edit \"schemas\"/\"schemasDirectory\" to point CIMcheck at your "
-                + "CGMES profiles (without them, validation is syntax-only).");
-        return ExitCode.OK;
+  @Override
+  public Integer call() {
+    Path target = dir.resolve(ConfigTemplate.FILE_NAME);
+    if (Files.exists(target) && !force) {
+      System.err.println("Error: " + target + " already exists. Use --force to overwrite.");
+      return ExitCode.USAGE;
     }
+    try {
+      Files.writeString(target, ConfigTemplate.defaultJson(), StandardCharsets.UTF_8);
+    } catch (IOException e) {
+      System.err.println("Error: cannot write " + target + ": " + e.getMessage());
+      return ExitCode.SOFTWARE;
+    }
+    System.out.println("Created " + target);
+    System.out.println(
+        "Edit \"schemas\"/\"schemasDirectory\" to point CIMcheck at your "
+            + "CGMES profiles (without them, validation is syntax-only).");
+    return ExitCode.OK;
+  }
 }

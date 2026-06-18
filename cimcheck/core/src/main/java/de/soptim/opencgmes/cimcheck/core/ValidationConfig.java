@@ -22,49 +22,49 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Common interface for the {@code cimcheck} section of {@code opencgmes.json}, config records shared by the CLI and
- * LSP modules.
+ * Common interface for the {@code cimcheck} section of {@code opencgmes.json}, config records
+ * shared by the CLI and LSP modules.
  *
  * <p>Both {@code CliConfig} and {@code LspConfig} implement this interface. Having the shared
- * contract here ensures that adding a new config field requires updating both records, so
- * they cannot silently diverge.</p>
+ * contract here ensures that adding a new config field requires updating both records, so they
+ * cannot silently diverge.
  */
 public interface ValidationConfig {
 
-    /** Path to a directory containing schema files, or {@code null}. */
-    String schemasDirectory();
+  /** Path to a directory containing schema files, or {@code null}. */
+  String schemasDirectory();
 
-    /** Explicit list of schema file paths (alternative to {@link #schemasDirectory()}). */
-    List<String> schemas();
+  /** Explicit list of schema file paths (alternative to {@link #schemasDirectory()}). */
+  List<String> schemas();
 
-    /** Per-graph profile scope: graph-key → list of version IRI strings. */
-    Map<String, List<String>> namedGraphs();
+  /** Per-graph profile scope: graph-key → list of version IRI strings. */
+  Map<String, List<String>> namedGraphs();
 
-    /** Validation strictness level string ({@code "permissive"}, {@code "default"}, etc.). */
-    String strictness();
+  /** Validation strictness level string ({@code "permissive"}, {@code "default"}, etc.). */
+  String strictness();
 
-    /** Custom prefix map, or {@code null} to use built-in defaults. */
-    Map<String, String> prefixes();
+  /** Custom prefix map, or {@code null} to use built-in defaults. */
+  Map<String, String> prefixes();
 
-    /**
-     * Whether terms in the closed standard vocabularies ({@code rdf}/{@code rdfs}/{@code owl}/
-     * {@code sh}) are checked for typos. One of {@code "check"} (default) or {@code "ignore"};
-     * {@code null} means the default. See {@link #checkStandardVocabulary()}.
-     */
-    String standardVocabulary();
+  /**
+   * Whether terms in the closed standard vocabularies ({@code rdf}/{@code rdfs}/{@code owl}/ {@code
+   * sh}) are checked for typos. One of {@code "check"} (default) or {@code "ignore"}; {@code null}
+   * means the default. See {@link #checkStandardVocabulary()}.
+   */
+  String standardVocabulary();
 
-    /** @return {@code true} iff {@link #namedGraphs()} is non-null and non-empty. */
-    default boolean hasNamedGraphs() {
-        Map<String, List<String>> ng = namedGraphs();
-        return ng != null && !ng.isEmpty();
-    }
+  /** Returns whether {@link #namedGraphs()} is non-null and non-empty. */
+  default boolean hasNamedGraphs() {
+    Map<String, List<String>> ng = namedGraphs();
+    return ng != null && !ng.isEmpty();
+  }
 
-    /**
-     * Resolves {@link #standardVocabulary()} to a boolean: {@code true} (check) unless explicitly
-     * set to {@code "ignore"} (case-insensitive). Unknown values fall back to checking enabled.
-     */
-    default boolean checkStandardVocabulary() {
-        String v = standardVocabulary();
-        return v == null || !v.trim().equalsIgnoreCase("ignore");
-    }
+  /**
+   * Resolves {@link #standardVocabulary()} to a boolean: {@code true} (check) unless explicitly set
+   * to {@code "ignore"} (case-insensitive). Unknown values fall back to checking enabled.
+   */
+  default boolean checkStandardVocabulary() {
+    String v = standardVocabulary();
+    return v == null || !v.trim().equalsIgnoreCase("ignore");
+  }
 }
