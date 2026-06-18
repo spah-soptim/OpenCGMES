@@ -115,7 +115,8 @@ dependencies {
 // compile-time dependency, not shipped in the plugin zip.) compileClasspath
 // resolves deterministically from the pinned platformVersion / lsp4ijVersion.
 //
-// Output goes to the committed ../../cimvocabcheck/sbom/intellij/bom.json; the build timestamp is
+// Output goes to the committed ../sbom/intellij/bom.json (i.e. cimnotebook/sbom/intellij); the
+// build timestamp is
 // normalised away by scripts/generate-sbom.sh so re-runs are byte-identical.
 // License compliance + attribution is handled by scripts/check-sbom-licenses.py.
 // ---------------------------------------------------------------------------
@@ -125,7 +126,7 @@ tasks.cyclonedxBom {
     setOutputName("bom")
     setSchemaVersion("1.6")
     setIncludeBomSerialNumber(false)
-    setDestination(layout.projectDirectory.dir("../../cimvocabcheck/sbom/intellij").asFile)
+    setDestination(layout.projectDirectory.dir("../sbom/intellij").asFile)
 }
 
 intellijPlatform {
