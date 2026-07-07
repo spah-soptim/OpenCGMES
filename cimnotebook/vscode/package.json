@@ -188,7 +188,7 @@
         "copy-jar": "cp ../../cimvocabcheck/lsp/target/cimvocabcheck-lsp-*.jar server/cimvocabcheck-lsp.jar"
     },
     "dependencies": {
-        "vscode-languageclient": "^9.0.1"
+        "vscode-languageclient": "^10.0.0"
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
