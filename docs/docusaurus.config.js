@@ -28,7 +28,7 @@ const config = {
   favicon: 'img/favicon.svg',
 
   url: 'https://opencgmes.soptim.de',
-  baseUrl: '/',
+  baseUrl: '/OpenCGMES/',
 
   organizationName: 'SOPTIM',
   projectName: 'OpenCGMES',
