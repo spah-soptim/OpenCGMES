@@ -47,7 +47,7 @@ jobs:
         uses: actions/setup-java@1bcf9fb12cf4aa7d266a90ae39939e61372fe520 # v5.4.0
         with:
           distribution: temurin
-          java-version: "21"
+          java-version: "25.0.4+101.0.LTS"
           cache: maven
           cache-dependency-path: |
             pom.xml
@@ -95,7 +95,7 @@ jobs:
         uses: actions/setup-java@1bcf9fb12cf4aa7d266a90ae39939e61372fe520 # v5.4.0
         with:
           distribution: temurin
-          java-version: "21"
+          java-version: "25.0.4+101.0.LTS"
           cache: maven
           cache-dependency-path: |
             pom.xml
@@ -122,7 +122,7 @@ jobs:
         uses: actions/setup-java@1bcf9fb12cf4aa7d266a90ae39939e61372fe520 # v5.4.0
         with:
           distribution: temurin
-          java-version: "21"
+          java-version: "25.0.4+101.0.LTS"
           cache: maven
           cache-dependency-path: |
             pom.xml
@@ -166,7 +166,7 @@ jobs:
         uses: actions/setup-java@1bcf9fb12cf4aa7d266a90ae39939e61372fe520 # v5.4.0
         with:
           distribution: temurin
-          java-version: "21"
+          java-version: "25.0.4+101.0.LTS"
           cache: maven
           cache-dependency-path: |
             pom.xml
